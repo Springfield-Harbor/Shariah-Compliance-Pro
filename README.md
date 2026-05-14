@@ -6,7 +6,7 @@ This repository contains the finalized MCP (Model Context Protocol) implementati
 
 ---
 
-## 🛠 Active Feature Matrix & Use Cases
+## Active Feature Matrix & Use Cases
 
 | Feature | Primary Function | Quantitative Use Case | Compliance Use Case | Institutional Use Case |
 | --- | --- | --- | --- | --- |
@@ -28,7 +28,7 @@ This repository contains the finalized MCP (Model Context Protocol) implementati
 
 ---
 
-## 🚀 Access Methods
+## Access Methods
 
 ### 1. cURL (Direct SSE Handshake)
 
@@ -118,7 +118,7 @@ es.on('message', (event) => {
 
 ---
 
-## 📈 Quantitative Core Formulas
+## Quantitative Core Formulas
 
 The gateway utilizes the following validated models for its internal processing:
 
