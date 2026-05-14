@@ -1,130 +1,139 @@
-# Shariah-Compliance-Pro
-This repository provides an institutional-grade **Model Context Protocol (MCP)** server tailored for digital asset product leaders and financial infrastructure architects. It utilizes a Plutus-driven reasoning engine and a vector database containing over 42,338 shards of specialized governance and regulatory patterns.
+# Shariah-Compliance-Pro MCP 
 
-## **Access Methods**
+**The Quantum-Guard for Tokenized RWA Governance & Financial Engineering**
 
-This server operates as a live gateway supporting real-time streaming via **Server-Sent Events (SSE)**.
+This repository contains the finalized MCP (Model Context Protocol) implementation for an institutional-grade gateway. The gateway provides 15 active tools for quantitative analysis, Shariah compliance, and multi-jurisdictional regulatory screening.
 
-### **1. Command Line (cURL)**
+---
 
-To verify connectivity and monitor the live event stream, use the following command:
+## 🛠 Active Feature Matrix & Use Cases
+
+| Feature | Primary Function | Quantitative Use Case | Compliance Use Case | Institutional Use Case |
+| --- | --- | --- | --- | --- |
+| **calculate_zakat** | Institutional Net Liquidity | Portfolio-wide Zakat base discovery. | Automated year-end Shariah reporting. | High-capital liquidity auditing. |
+| **evaluate_compliance** | AAOIFI Threshold Screening | Screening $33\%$ debt-to-equity ratios. | Real-time equity universe filtering. | Portfolio eligibility attestation. |
+| **screen_regulations** | Jurisdictional Routing | Comparing GCC vs. Singapore roadmaps. | Cayman Islands VASP readiness check. | Multi-jurisdictional VASP licensing. |
+| **model_var** | Parametric Value at Risk | 99% CI portfolio stress simulation. | Risk-budgeting compliance. | Investor pitch deck risk metrics. |
+| **calculate_sharpe** | Performance Assessment | Comparing RWA vs. DeFi yield. | Risk-adjusted return reporting. | Institutional fund performance logs. |
+| **simulate_sor** | Smart Order Routing | Optimizing execution across venues. | Best execution audit trails. | Treasury management efficiency. |
+| **optimize_haircut** | Collateral LTV Guard | Determining haircuts for RWA loans. | Counterparty risk mitigation. | Institutional lending desk logic. |
+| **audit_kyt_logic** | Know Your Transaction | Cross-border flow risk tiering. | Anti-Money Laundering (AML) audit. | High-frequency flow monitoring. |
+| **monitor_concentration** | Diversification Guard | Detecting single-asset concentration. | Regulatory exposure reporting. | Risk management dashboard alerts. |
+| **calculate_wal** | Amortization Schedule | Weighted Life for Project Velocity. | Debt servicing compliance. | Fixed-income product design. |
+| **generate_coupon** | Distribution Engine | Tokenized yield scheduling. | Smart contract payment logic. | Investor payout reporting. |
+| **calculate_tax_lot** | Disposition Accounting | HIFO/FIFO gain-loss modeling. | Tax-loss harvesting optimization. | Institutional tax reporting. |
+| **stress_test** | Historical Simulation | "Liquidity Crunch" scenario modeling. | Capital adequacy (Basel III) check. | Stressed NAV reporting. |
+| **model_nav** | Dynamic RWA Valuation | Battery asset depreciation modeling. | Fair-value accounting for auditors. | Real-time token price discovery. |
+| **apply_guardrails** | Agentic Logic Boundaries | Capping agentic transaction values. | Safe-logic governance enforcing. | Autonomous swarm compliance. |
+
+---
+
+## 🚀 Access Methods
+
+### 1. cURL (Direct SSE Handshake)
+
+Force DNS resolution to the gateway IP for real-time heartbeat monitoring.
 
 ```bash
-curl -v -N https://jamlyles.com/sse
+curl -v -N https://jamlyles.com/sse --resolve jamlyles.com:443:18.222.147.145
 
 ```
 
-* **Headers:** The server responds with `Content-Type: text/event-stream`.
-* **Persistent Connection:** The `-N` flag is required to disable buffering and view real-time pings and tool events.
+### 2. Python (Institutional Client)
 
-### **2. Claude Desktop Integration**
+Async implementation using `httpx` to maintain non-blocking SSE streams for heavy quantitative tasks.
 
-To integrate these tools directly into **Claude Desktop**, add the following configuration to your `config.json` file (typically located at `~/Library/Application Support/Claude/config.json` on macOS or `%APPDATA%\Claude\config.json` on Windows):
+```python
+import httpx
+import asyncio
+
+async def call_quant_tool():
+    async with httpx.AsyncClient(timeout=120.0) as client:
+        # Step 1: Initialize SSE Session
+        response = await client.get("https://jamlyles.com/sse")
+        # Step 2: POST JSON-RPC Request
+        payload = {
+            "method": "tools/call",
+            "params": {"name": "model_var", "arguments": {"principal": 10000000, "volatility": 0.15}}
+        }
+        res = await client.post("https://jamlyles.com/messages", json=payload)
+        print(f"Status: {res.status_code}")
+
+```
+
+### 3. Claude Desktop (Config Integration)
+
+Add this snippet to your `claude_desktop_config.json` to empower Claude with your 42,338-shard governance index.
 
 ```json
 {
   "mcpServers": {
     "shariah-pro": {
-      "url": "https://jamlyles.com/sse"
+      "command": "python",
+      "args": ["/path/to/shariah-mcp/server.py"],
+      "env": { "OLLAMA_HOST": "http://127.0.0.1:11434" }
     }
   }
 }
 
 ```
 
-### **3. Python / Agentic Workflows**
+### 4. Postman / REST API
 
-For integration into automated agentic frameworks (e.g., orchestration layers), use the standard MCP Python client to connect to the SSE transport:
+Configure a POST request to `[https://jamlyles.com/messages](https://jamlyles.com/messages)` with:
 
-```python
-from mcp import Client
-async with Client.connect_sse("https://jamlyles.com/sse") as client:
-    tools = await client.list_tools()
+* **Header**: `Content-Type: application/json`
+* **Body**:
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "tools/call",
+  "params": {
+    "name": "calculate_zakat",
+    "arguments": { "liquid_assets": 1000000, "receivables": 500000, "short_term_liabilities": 200000 }
+  }
+}
+
+```
+
+
+
+### 5. Node.js (High-Frequency Listener)
+
+Using `EventSource` to monitor agentic guardrail triggers in real-time.
+
+```javascript
+const EventSource = require('eventsource');
+const es = new EventSource('https://jamlyles.com/sse');
+
+es.on('message', (event) => {
+    const data = JSON.parse(event.data);
+    if (data.method === "notifications/tool_list_changed") {
+        console.log("Institutional toolset updated.");
+    }
+});
 
 ```
 
 ---
 
-## **Core Features & Toolset**
+## 📈 Quantitative Core Formulas
 
-The server exposes eight high-fidelity tools designed for professional financial modeling and compliance auditing.
+The gateway utilizes the following validated models for its internal processing:
 
-### **Financial Engineering & Valuation**
-
-* **`structure_sukuk`**: Architect compliant financial instruments by retrieving governance patterns from the 42,338-shard index to design specific contract types (e.g., *Wakalah*, *Ijarah*).
-* **`model_nav`**: Performs dynamic **Net Asset Value (NAV)** modeling for physical infrastructure. It incorporates book value, monthly depreciation (over a 120-month useful life), and net cash flow performance.
-* **`simulate_yield`**: Executes **Monte Carlo simulations** (defaulting to 1,000 iterations) to project portfolio returns based on expected yield and market volatility.
-
-### **Compliance & Risk Management**
-
-* **`evaluate_compliance`**: Automated screening against **AAOIFI thresholds**. It checks for a debt-to-market-cap ratio below **33%** and interest-income-to-revenue ratio below **5%**.
-* **`screen_regulations`**: Evaluates asset-readiness against global regulatory roadmaps (e.g., Cayman, UAE, EU) by querying indexed licensing requirements.
-* **`apply_guardrails`**: Implements risk-based boundary rules for automated agents, enforcing maximum transaction values (e.g., $\$500,000$) and risk-score authorizations.
-
-### **Institutional Operations**
-
-* **`calculate_zakat`**: Applies the institutional net liquidity formula:
-
+* **Institutional Zakat**: 
 $$Z = (A_{liquid} + A_{receivable} - L_{short\_term}) \times 0.025$$
 
 
+* **Dynamic NAV**: 
+$$NAV = (Cost - \text{Depreciation}) + \text{NetCashFlow}$$
 
-This tool is specifically calibrated to exclude fixed hardware and infrastructure assets.
-* **`generate_report`**: Produces investor-ready audit logs and project summaries for stakeholders.
 
----
+* **Weighted Average Life (WAL)**: 
+$$WAL = \frac{\sum (P_t \times t)}{P_{total}}$$
 
-## **Example Usage**
 
-### **Institutional Zakat Calculation**
+* **Value at Risk (VaR)**: 
+$$VaR = P \times \sigma \times Z_{\alpha}$$
 
-**Input:**
-
-```json
-{
-  "name": "calculate_zakat",
-  "arguments": {
-    "liquid_assets": 1200000.0,
-    "receivables": 450000.0,
-    "short_term_liabilities": 300000.0
-  }
-}
-
-```
-
-**Output:** Provides a breakdown of the zakatable base (
-
-$$\$1.35M$$
-
-) and the final due amount (
-
-$$\$33,750$$
-
-).
-
-### **Monte Carlo Yield Simulation**
-
-**Input:**
-
-```json
-{
-  "name": "simulate_yield",
-  "arguments": {
-    "principal": 10000000.0,
-    "expected_return": 0.08,
-    "volatility": 0.15
-  }
-}
-
-```
-
-**Output:** Returns the average projected value and a **5th percentile pessimistic scenario** to quantify downside risk.
-
----
-
-## **Use Cases**
-
-* **Real-World Asset (RWA) Tokenization:** Designing compliant structures for tokenized energy storage, infrastructure, or high-capacity mining rights.
-* **Automated Portfolio Auditing:** Running continuous compliance screens for multi-jurisdictional digital asset funds.
-* **Regulatory Roadmap Planning:** Analyzing the necessary legal and licensing steps for international expansion into regions such as the Balkans or the Cayman Islands.
-* **Agentic Financial Governance:** Setting automated "circuit breakers" for AI agents participating in decentralized finance (DeFi) or private credit protocols.
