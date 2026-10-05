@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>VSENSE Halal Logistics — Import Evidence Command</title>
+<meta name="description" content="Synthetic demonstration of a cryptographic evidence platform for halal import supply chains. Prepares and verifies evidence; issues no certification, clearance or release.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%235fe08a'/><path d='M28 52l16 16 28-32' stroke='%23042015' stroke-width='11' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+</head>
+<body>
+<a class="skip-link" href="#workspace">Skip to workspace</a>
+
+<!-- Icon sprite. Inline so the demo works offline from file://. -->
+<svg style="display:none" aria-hidden="true">
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="3"/><circle cx="18" cy="5" r="3"/><path d="M9 19h5a4 4 0 0 0 0-8H10a4 4 0 0 1 0-8h5"/></symbol>
+  <symbol id="i-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-8 4 16 3-8h4"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  <symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v6l-5.6 9.3A2 2 0 0 0 5.1 21h13.8a2 2 0 0 0 1.7-3.7L15 8V2"/><path d="M8 2h8M7 15h10"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+  <symbol id="i-dash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-gap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4M10 12h4M17 12h4"/></symbol>
+  <symbol id="i-dot" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="4"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-pack" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 12l9 5 9-5M3 16l9 5 9-5"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></symbol>
+  <symbol id="i-ship" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18l1.5-6h15L21 18M5 12V8h14v4M12 4v4M2 20c1.5 0 1.5 1 3 1s1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1 1.5-1 3-1"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="13" height="10" rx="1"/><path d="M14 9h4l3 3v4h-7z"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="17.5" cy="18.5" r="2"/></symbol>
+  <symbol id="i-plane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l5-5a2.1 2.1 0 0 0-3-3l-5 5-8.2-1.8a1 1 0 0 0-.9 1.7L9 11l-2 4-3-1-1 1 3.5 2.5L9 21l1-1-1-3 4-2 3.1 5.1a1 1 0 0 0 1.7-.9z"/></symbol>
+  <symbol id="i-anchor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><path d="M12 22V8M5 12H2a10 10 0 0 0 20 0h-3"/></symbol>
+  <symbol id="i-building" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/></symbol>
+</svg>
+
+<div class="app">
+  <aside class="rail">
+    <div class="brand" title="VSENSE Halal Logistics">V</div>
+    <nav id="nav" aria-label="Primary"></nav>
+    <button class="theme-toggle" id="theme-btn" aria-label="Switch colour theme" style="padding:7px;width:38px;justify-content:center">
+      <svg class="ico-moon"><use href="#i-moon"/></svg>
+    </button>
+  </aside>
+
+  <section class="surface">
+    <div class="banner">
+      <svg><use href="#i-info"/></svg>
+      <span><b>SYNTHETIC DEMONSTRATION.</b> All organizations, vessels, facilities, people and results are invented. This tool prepares and verifies evidence. It issues no halal certification, religious ruling, laboratory validation, customs release or market authorization.</span>
+    </div>
+
+    <header class="topbar">
+      <div class="ctx">
+        <span class="eyebrow">Halal import journey</span>
+        <select class="journey" id="journey-select" aria-label="Select import journey"></select>
+      </div>
+      <span class="chip live" id="stream-chip"><span class="dot"></span> STREAM IDLE</span>
+      <span class="chip demo">DEMO DATA</span>
+      <div class="spacer"></div>
+      <label class="persona-select">
+        <svg style="width:14px;height:14px;opacity:.7"><use href="#i-users"/></svg>
+        <select id="persona-select" aria-label="Acting as persona"></select>
+      </label>
+      <button class="audit-btn" id="audit-btn">
+        <svg><use href="#i-pack"/></svg>
+        Generate Audit Packet
+      </button>
+    </header>
+
+    <main id="workspace" tabindex="-1">
+      <section class="view active" id="view-journey" data-view="journey"></section>
+      <section class="view" id="view-custody" data-view="custody"></section>
+      <section class="view" id="view-stream" data-view="stream"></section>
+      <section class="view" id="view-compliance" data-view="compliance"></section>
+      <section class="view" id="view-evidence" data-view="evidence"></section>
+      <section class="view" id="view-laboratory" data-view="laboratory"></section>
+      <section class="view" id="view-integrity" data-view="integrity"></section>
+      <section class="view" id="view-personas" data-view="personas"></section>
+    </main>
+  </section>
+</div>
+
+<!-- ======================= audit packet drawer (right) ======================= -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" aria-hidden="true">
+  <div class="drawer-head">
+    <div>
+      <span class="eyebrow">Disclosure</span>
+      <h2 id="drawer-title">Generate audit packet</h2>
+      <p>Assemble a disclosable evidence packet for this journey. One evidence core, one independently frozen annex per destination.</p>
+    </div>
+    <button class="drawer-close" id="drawer-close" aria-label="Close drawer"><svg><use href="#i-x"/></svg></button>
+  </div>
+
+  <div class="drawer-body" id="drawer-body"></div>
+
+  <div class="drawer-foot">
+    <div id="drawer-status" class="hint"></div>
+    <div class="btn-row">
+      <button class="btn" id="btn-json"><svg><use href="#i-down"/></svg> Download JSON</button>
+      <button class="btn primary" id="btn-pdf"><svg><use href="#i-down"/></svg> Download PDF</button>
+    </div>
+    <button class="btn" id="btn-both" style="width:100%"><svg><use href="#i-pack"/></svg> Download both &amp; verify</button>
+  </div>
+</aside>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="lib/crypto.js"></script>
+<script src="lib/pdf.js"></script>
+<script src="data/registry.js"></script>
+<script src="data/journeys.js"></script>
+<script src="data/stream.js"></script>
+<script src="lib/assess.js"></script>
+<script src="lib/packet.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
