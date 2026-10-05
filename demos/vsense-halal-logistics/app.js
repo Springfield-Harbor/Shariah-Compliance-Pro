@@ -997,4 +997,79 @@
 
   function showVerification(result, v) {
     const body = $('#drawer-body');
-    const html = '<div class="card" style="padding:13px;margin-bottom:14px;border-color:' +
+    const html = '<div class="card" style="padding:13px;margin-bottom:14px;border-color:' +      (v.ok ? 'color-mix(in srgb, var(--verified) 48%, transparent)' : 'color-mix(in srgb, var(--vermilion) 48%, transparent)') + '">' +
+      '<h2 style="font-size:13px">Verification of the packet just produced</h2>' +
+      '<p class="sub" style="font-size:11.5px">Run against the exported object, not internal state.</p>' +
+      '<div class="verify-list">' +
+      v.checks.map((c) => vrow(c.name, c.pass, c.detail)).join('') +
+      '</div>' +
+      hashBox('Packet digest', result.digest, 'Remove the manifest member, canonicalize the rest under VS-JCS-1, SHA-256 it. The result must equal this.') +
+      '<p class="hint"><strong>Denied-data scan:</strong> ' + esc(result.scan.result) + ' &mdash; ' + esc(result.scan.note) + '</p>' +
+      '</div>';
+    body.insertAdjacentHTML('afterbegin', html);
+    wireCopy(body);
+    body.scrollTop = 0;
+  }
+
+  function saveBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
+  }
+
+  /* --------------------------------------------------------------- bits */
+
+  function head(title, sub) {
+    return '<div class="view-head"><span class="eyebrow">' + esc(S.journey.id) + '</span>' +
+      '<h1>' + esc(title) + '</h1><p>' + esc(sub) + '</p></div>';
+  }
+
+  function tile(val, lbl, sub) {
+    return '<div class="card"><div class="stat">' +
+      '<span class="val' + (String(val).length > 12 ? ' sm' : '') + '">' + val + '</span>' +
+      '<span class="lbl">' + esc(lbl) + '</span>' +
+      (sub ? '<span class="lbl" style="font-size:10.5px;color:var(--fog-faint)">' + esc(sub) + '</span>' : '') +
+      '</div></div>';
+  }
+
+  function gateRow(name, state, detail) {
+    return '<div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--hairline)">' +
+      '<span style="flex:1;font-size:12.5px">' + esc(name) + '<div style="font-size:10.5px;color:var(--fog-faint)" class="mono">' + esc(detail) + '</div></span>' +
+      chip(state) + '</div>';
+  }
+
+  function kvRow(k, v, raw) {
+    return '<tr><td style="color:var(--fog-dim);width:38%;font-size:12px">' + esc(k) + '</td><td>' + (raw ? v : esc(v)) + '</td></tr>';
+  }
+
+  function hashBox(label, value, caption) {
+    return '<div class="hashbox"><span class="eyebrow">' + esc(label) +
+      '<button class="copy" data-copy="' + esc(value) + '">copy</button></span>' +
+      '<code>' + esc(value) + '</code>' +
+      (caption ? '<span class="cap">' + esc(caption) + '</span>' : '') + '</div>';
+  }
+
+  function boundaryNote() {
+    return '<div class="boundary"><b>Boundary.</b> This tool prepares and verifies evidence. It does not issue halal certification, a religious ruling, laboratory validation, accreditation, recognition, customs release, market authorization or commercial release. Preparation, submission, external outcome and commercial release are separate states and none of them implies another. All data shown is synthetic.</div>';
+  }
+
+  function titleCase(s) {
+    return String(s).toLowerCase().replace(/(^|[\s_])(\w)/g, (m, a, b) => (a ? ' ' : '') + b.toUpperCase());
+  }
+
+  let toastTimer = null;
+  function toast(msg, isErr) {
+    const t = $('#toast');
+    t.textContent = msg;
+    t.classList.toggle('err', !!isErr);
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 5200);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})(typeof window !== 'undefined' ? window : globalThis);
